@@ -1,0 +1,19 @@
+{
+  "name": "nodejs-mentoring-program",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlfiyaRF/nodejs-mentoring-program.git"
+  },
+  "author": "Alfiia Faizrakhmanova",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AlfiyaRF/nodejs-mentoring-program/issues"
+  },
+  "homepage": "https://github.com/AlfiyaRF/nodejs-mentoring-program#readme"
+}
