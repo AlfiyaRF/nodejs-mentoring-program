@@ -2,11 +2,11 @@ function getRandomNumber() {
     const min = 1;
     const max = 1000;
 
-    return Math.floor(Math.random() * (max - min) + min);
+    const random = Math.floor(Math.random() * (max - min) + min);
+    console.log(random);
+    return random;
 }
 
 module.exports = {
     getRandomNumber
 };
-
-console.log(getRandomNumber());
