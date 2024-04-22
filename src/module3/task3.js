@@ -1,25 +1,24 @@
 const csv = require('csvtojson');
-const fs = require("fs")
+const fs = require("fs");
 
 const csvFilePath = './src/module3/csv/data.csv';
-const textFilePath = './src/module3/text/data.text';
+const txtFilePath = './src/module3/text/data.text';
+
+const csvReadStream = fs.createReadStream(csvFilePath, { encoding: 'utf8' });
+const txtWriteStream = fs.createWriteStream(txtFilePath, { encoding: 'utf8' });
 
 async function readCsvWriteText() {
-  csv()
-    .on('error', (err)=>{
-      console.log('error', err)
+  csvReadStream.pipe(csv())
+    .on('error', (err) => {
+        console.error('Error converting CSV to JSON:', err);
     })
-    .fromFile(csvFilePath)
-    .then(result=>{
-      for (let i = 0; i < result.length; i++) {
-        const stringResult = `line ${i} ${JSON.stringify(result[i])}\n`;
-        fs.appendFileSync(
-          textFilePath,
-          stringResult,
-          (err) => console.log(err)
-        )
-      }
+    .pipe(txtWriteStream)
+    .on('error', (err) => {
+        console.error('Error writing to TXT file:', err);
     })
+    .on('finish', () => {
+        console.log('Conversion completed successfully.');
+    });
 }
 
 readCsvWriteText();
