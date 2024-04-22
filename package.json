@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon src/app.js"
+    "start": "nodemon src/app.js",
+    "task1": "nodemon src/module3/test1.js",
+    "task2": "nodemon src/module3/task2.js",
+    "task3": "nodemon src/module3/task3.js"
   },
   "repository": {
     "type": "git",
@@ -19,5 +22,8 @@
   "homepage": "https://github.com/AlfiyaRF/nodejs-mentoring-program#readme",
   "devDependencies": {
     "nodemon": "^3.1.0"
+  },
+  "dependencies": {
+    "csvtojson": "^2.0.10"
   }
 }

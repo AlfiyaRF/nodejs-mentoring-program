@@ -1,3 +1,3 @@
-const task2 = require('./task2/index.js');
+const task2 = require('./module2/index.js');
 
 task2.getCmdOutput();
