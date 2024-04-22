@@ -1,3 +1,3 @@
-const task2 = require('./module2/index.js');
+const server = require('./module5/server.js');
 
-task2.getCmdOutput();
+server.startServer();
