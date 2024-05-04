@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon src/app.js",
+    "start": "nodemon src/module6/server.ts",
+    "stop": "pkill -f nodemon",
     "task1": "nodemon src/module3/test1.js",
     "task2": "nodemon src/module3/task2.js",
     "task3": "nodemon src/module3/task3.js",
@@ -23,15 +24,21 @@
   },
   "homepage": "https://github.com/AlfiyaRF/nodejs-mentoring-program#readme",
   "devDependencies": {
+    "@types/express": "^4.17.21",
     "@types/jest": "^29.5.12",
+    "@types/uuid": "^9.0.8",
     "jest": "^29.7.0",
     "nodemon": "^3.1.0",
     "supertest": "^6.3.4",
     "ts-jest": "^29.1.2",
+    "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
   },
   "dependencies": {
     "axios": "^1.6.8",
-    "csvtojson": "^2.0.10"
+    "csvtojson": "^2.0.10",
+    "express": "^4.19.2",
+    "joi": "^17.13.0",
+    "uuid": "^9.0.1"
   }
 }
