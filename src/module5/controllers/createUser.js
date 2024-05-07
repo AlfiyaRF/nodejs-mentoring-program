@@ -35,14 +35,14 @@ exports.createUser = (req, res) => {
 
         for (let i = 0; i < users.length; i++) {
           const user = users[i].user;
-          if (user.name === name) {
-            res.writeHead(404, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({
-              data: null,
-              error: `User with name ${name} already exists`
-            }));
-            return;
-          }
+          // if (user.name === name) {
+          //   res.writeHead(404, { 'Content-Type': 'application/json' });
+          //   res.end(JSON.stringify({
+          //     data: null,
+          //     error: `User with name ${name} already exists`
+          //   }));
+          //   return;
+          // }
           if (user.email === email) {
             res.writeHead(404, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({
