@@ -10,7 +10,7 @@ exports.getHobbies = (req, res) => {
 
     fs.readFile(userDataPath, 'utf8', (err, data) => {
       if (err) {
-          res.writeHead(500, { 'Content-Type': 'text/plain' });
+          res.writeHead(500, { 'Content-Type': 'application/json' });
           res.end('Internal Server Error\n');
           return;
       }
@@ -21,7 +21,7 @@ exports.getHobbies = (req, res) => {
       }
       const user = users.find(user => user.user.id === userId);
 
-      res.writeHead(200, { 'Content-Type': 'Application/json' });
+      res.writeHead(200, { 'Content-Type': 'application/json' });
       res.end(JSON.stringify({
           data: {
               hobbies: user.hobbies || [],
@@ -34,7 +34,7 @@ exports.getHobbies = (req, res) => {
       }));
     });
   } catch (err) {
-    res.writeHead(400, { 'Content-Type': 'Application/json' });
+    res.writeHead(400, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ error: 'Invalid JSON' }));
   }
 };

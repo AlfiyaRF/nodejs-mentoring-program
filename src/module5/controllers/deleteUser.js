@@ -10,7 +10,7 @@ exports.deleteUser = (req, res) => {
 
     fs.readFile(userDataPath, 'utf8', (err, data) => {
       if (err) {
-        res.writeHead(500, { 'Content-Type': 'text/plain' });
+        res.writeHead(500, { 'Content-Type': 'application/json' });
         res.end('Internal Server Error\n');
         return;
       }
@@ -33,12 +33,12 @@ exports.deleteUser = (req, res) => {
       }
       fs.writeFile(userDataPath, JSON.stringify(usersDeleted, null, 2), (err) => {
         if (err) {
-          res.writeHead(500, { 'Content-Type': 'text/plain' });
+          res.writeHead(500, { 'Content-Type': 'application/json' });
           res.end('Internal Server Error\n');
           return;
         }
 
-        res.writeHead(200, { 'Content-Type': 'Application/json' });
+        res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({
           data: {
             "success": true

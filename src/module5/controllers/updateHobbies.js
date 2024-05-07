@@ -17,7 +17,7 @@ exports.updateHobbies = (req, res) => {
 
       fs.readFile(userDataPath, 'utf8', (err, data) => {
         if (err) {
-          res.writeHead(500, { 'Content-Type': 'text/plain' });
+          res.writeHead(500, { 'Content-Type': 'application/json' });
           res.end('Internal Server Error\n');
           return;
         }
@@ -47,7 +47,7 @@ exports.updateHobbies = (req, res) => {
         }
         fs.writeFile(userDataPath, JSON.stringify(users, null, 2), (err) => {
           if (err) {
-            res.writeHead(500, { 'Content-Type': 'text/plain' });
+            res.writeHead(500, { 'Content-Type': 'application/json' });
             res.end('Internal Server Error\n');
             return;
           }

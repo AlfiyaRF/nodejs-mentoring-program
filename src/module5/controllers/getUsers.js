@@ -8,8 +8,7 @@ exports.getUsers = (req, res) => {
   try {
     fs.readFile(userDataPath, 'utf8', (err, data) => {
       if (err) {
-        res.writeHead(500, { 'Content-Type': 'text/plain' });
-        // { 'Content-Type': 'Application/json' }
+        res.writeHead(500, { 'Content-Type': 'application/json' });
         res.end('Internal Server Error\n');
         return;
       }

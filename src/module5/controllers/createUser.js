@@ -23,7 +23,7 @@ exports.createUser = (req, res) => {
       };
       fs.readFile(userDataPath, 'utf8', (err, data) => {
         if (err) {
-          res.writeHead(500, { 'Content-Type': 'text/plain' });
+          res.writeHead(500, { 'Content-Type': 'application/json' });
           res.end('Internal Server Error\n');
           return;
         }
@@ -35,14 +35,6 @@ exports.createUser = (req, res) => {
 
         for (let i = 0; i < users.length; i++) {
           const user = users[i].user;
-          // if (user.name === name) {
-          //   res.writeHead(404, { 'Content-Type': 'application/json' });
-          //   res.end(JSON.stringify({
-          //     data: null,
-          //     error: `User with name ${name} already exists`
-          //   }));
-          //   return;
-          // }
           if (user.email === email) {
             res.writeHead(404, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({
@@ -57,7 +49,7 @@ exports.createUser = (req, res) => {
 
         fs.writeFile(userDataPath, JSON.stringify(users, null, 2), (err) => {
           if (err) {
-            res.writeHead(500, { 'Content-Type': 'text/plain' });
+            res.writeHead(500, { 'Content-Type': 'application/json' });
             res.end('Internal Server Error\n');
             return;
           }
