@@ -5,7 +5,12 @@ export interface ProductEntity {
   price: number;
 };
 
-export interface ProductRequest {
+export interface ProductRequestEntity {
   productId: string; // uuid,
+  count: number;
+}
+
+export interface ProductForCartEntity {
+  product: ProductEntity | undefined;
   count: number;
 }

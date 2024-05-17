@@ -1,6 +1,6 @@
 
 import express from 'express';
-import { validateUserId } from './middleware/authMiddleware';
+import { validateUserId } from './controllers/authMiddleware';
 import productRoutes from './routes/productRoutes';
 import cartRoutes from './routes/cartRoutes';
 

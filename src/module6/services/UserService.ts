@@ -1,19 +1,22 @@
 import { UserEntity } from '../interfaces/User';
-import { users } from '../models/userData';
+import { UserRepository } from '../repositories/UserRepository';
 
 export class UserService {
-  static getAllUsers(): UserEntity[] {
-    return users;
+  private userRepository: UserRepository;
+
+  constructor() {
+    this.userRepository = new UserRepository();
   }
 
-  static getUserById(userId: string): UserEntity | undefined {
-    const users = UserService.getAllUsers();
-    const user = users.find(user => user.id === userId);
-    return user;
+  getAllUsers(): UserEntity[] {
+    return this.userRepository.getAllUsers();
   }
 
-  static isUserExists(userId: string): boolean {
-    const user = UserService.getUserById(userId);
-    return Boolean(user);
+  getUserById(id: string): UserEntity | undefined {
+    return this.userRepository.getUserById(id);
+  }
+
+  isUserExist(id: string): Boolean {
+    return this.userRepository.isUserExist(id);
   }
 }

@@ -1,26 +1,15 @@
 import { Request, Response } from 'express';
 import { ProductService } from '../services/ProductService';
+import { sendSuccessResponse, sendErrorResponse }from './helpers';
 import { productIdSchema } from '../schemas/product';
 
 export class ProductController {
   static getAllProducts(req: Request, res: Response): void {
     try {
       const products = ProductService.getAllProducts();
-      res
-        .status(200)
-        .json({
-          "data": products,
-          "error": null
-        });
+      sendSuccessResponse(res, products);
     } catch (error) {
-      res
-        .status(500)
-        .json({
-          "data": null,
-          "error": {
-            "message": "Internal Server error"
-          }
-        });
+      sendErrorResponse(res, "Internal Server error");
     }
   }
 
@@ -28,44 +17,16 @@ export class ProductController {
     try {
       const { error, value } = productIdSchema.validate(req.params.productId);
       if (error) {
-        res
-          .status(400)
-          .json({
-            "data": null,
-            "error": {
-              "message": `Product id ${value} is not valid`
-            }
-          });
-      } else {
-        const productId = value;
-        const product = ProductService.getProductById(productId);
-        if (!product) {
-          res
-            .status(404)
-            .json({
-              "data": null,
-              "error": {
-                "message": "No product with such id"
-              }
-            });
-        } else {
-          res
-            .status(200)
-            .json({
-              "data": product,
-              "error": null
-            });
-        }
+        return sendErrorResponse(res, `Product id ${value} is not valid`, 400);
       }
+      const productId = value;
+      const product = ProductService.getProductById(productId);
+      if (!product) {
+        return sendErrorResponse(res, "No product with such id", 404);
+      }
+      return sendSuccessResponse(res, product);
     } catch (error) {
-      res
-        .status(500)
-        .json({
-          "data": null,
-          "error": {
-            "message": "Internal Server error"
-          }
-        });
+      return sendErrorResponse(res, "Internal Server error");
     }
   }
 }
