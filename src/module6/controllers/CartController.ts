@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { CartService } from '../services/CartService';
-import { sendSuccessResponse, sendErrorResponse }from './helpers';
+import { sendSuccessResponse, sendErrorResponse }from '../common/helpers/responseHelpers';
 import { productSchema } from '../schemas/product';
 import { CustomError } from '../interfaces/Error';
 
@@ -15,7 +15,7 @@ export class CartController {
     try {
       const reqWithLocals = req as RequestWithLocals;
       const userId = reqWithLocals.locals.userId;
-      const cart = cartService.getCartByUserId(userId);
+      const cart = cartService.getOrCreateCart(userId);
       return sendSuccessResponse(res, cart);
     } catch (error) {
       return sendErrorResponse(res, "Internal Server error");
@@ -23,17 +23,17 @@ export class CartController {
   }
 
   static updateCart(req: Request, res: Response): void {
-    const { error: productError, value: product } = productSchema.validate(req.body);
+    const { error: productError, value: productValue } = productSchema.validate(req.body);
     if (productError) {
       return sendErrorResponse(res, "Products are not valid", 400);
     }
     try {
       const reqWithLocals = req as RequestWithLocals;
-      const userId = reqWithLocals.locals.userId;
-      const cart = cartService.updateCart(userId, product);
+      const { userId } = reqWithLocals.locals;
+      const cart = cartService.updateCart(userId, productValue);
       return sendSuccessResponse(res, cart);
     } catch (error) {
-      if ((error as CustomError).status === 404) {
+      if (error as CustomError) {
         return sendErrorResponse(res, (error as CustomError).message, 404);
       }
       return sendErrorResponse(res, "Internal Server error");
@@ -50,7 +50,7 @@ export class CartController {
       }
       return sendErrorResponse(res, "Internal Server error");
     } catch (error) {
-      if ((error as CustomError).status === 404) {
+      if (error as CustomError) {
         return sendErrorResponse(res, (error as CustomError).message, 404);
       }
       return sendErrorResponse(res, "Internal Server error");

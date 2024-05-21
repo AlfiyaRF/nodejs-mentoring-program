@@ -6,7 +6,7 @@ export enum ORDER_STATUS {
 };
 
 export interface OrderEntity {
-  id: string; // uuid
+  id: string;
   userId: string;
   cartId: string;
   items: CartItemEntity[];

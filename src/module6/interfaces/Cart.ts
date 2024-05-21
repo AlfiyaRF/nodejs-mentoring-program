@@ -6,15 +6,20 @@ export interface CartItemEntity {
 };
 
 export interface CartEntity {
-  id: string; // uuid
+  id: string;
   userId: string;
   isDeleted: boolean;
   items: CartItemEntity[];
 };
 
+export interface CartData {
+  id: string;
+  items: CartItemEntity[];
+}
+
 export interface CartResponse {
   cart: {
-    id: string; // uuid
+    id: string;
     items: CartItemEntity[];
   },
   total: number;

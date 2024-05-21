@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import { UserService } from '../services/UserService';
-import { sendErrorResponse } from './helpers';
+import { UserService } from '../../services/UserService';
+import { sendErrorResponse } from '../helpers/responseHelpers';
 
 interface RequestWithLocals extends Request {
   locals: { [key: string]: any };

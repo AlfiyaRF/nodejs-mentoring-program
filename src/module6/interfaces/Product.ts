@@ -1,12 +1,12 @@
 export interface ProductEntity {
-  id: string; // uuid
+  id: string;
   title: string;
   description: string;
   price: number;
 };
 
 export interface ProductRequestEntity {
-  productId: string; // uuid,
+  productId: string;
   count: number;
 }
 

@@ -1,7 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
-import { CartEntity, CartItemEntity, CartResponse } from '../interfaces/Cart';
+import { CartEntity, CartItemEntity } from '../interfaces/Cart';
 import { ProductEntity } from '../interfaces/Product';
-import { OrderEntity, ORDER_STATUS } from '../interfaces/Order';
 import { carts as cartData } from '../models/cartData';
 
 let carts = cartData;
@@ -40,48 +39,14 @@ export class CartRepository {
     return newCart;
   }
 
-  static getCart(userId: string): CartEntity {
+  static getCartByUserId(userId: string): CartEntity | undefined {
     const carts = CartRepository.getAllCarts();
-    let cart: CartEntity | undefined = carts.find(cart => cart.userId === userId);
-    if (!cart) {
-      cart = CartRepository.createCart(userId);
-    }
+    const cart: CartEntity | undefined = carts.find(cart => cart.userId === userId);
+    if (!cart) return undefined;
     return cart;
   }
 
-  static getCartTotal(cartItems: CartItemEntity[]): number {
-    const total = cartItems.reduce((acc: number, item: CartItemEntity) => {
-      const {product, count} = item;
-      if (product && count) {
-        const {price} = product;
-        acc += (price * count);
-      }
-      return acc;
-    }, 0);
-    return total;
-  }
-
-  static getCartByUserId(userId: string): CartResponse {
-    const cart = CartRepository.getCart(userId);
-    const cartData = {
-      cart: {
-        id: cart.id,
-        items: cart.items
-      },
-      total: CartRepository.getCartTotal(cart.items)
-    };
-    return cartData;
-  }
-
-  static updateCart(userId: string, product: CartItemEntity): CartResponse {
-    const cart = CartRepository.getCart(userId);
-    if (!cart) {
-      const error = {
-        status: 404,
-        message: 'Cart was not found'
-      };
-      throw error;
-    }
+  static updateCart(userId: string, cart: CartEntity, product: CartItemEntity): CartEntity {
     const updatedItems = cart.items.reduce((acc, item) => {
       if (product && product.product && item.product && item.product.id !== product.product.id) {
         acc.push(item);
@@ -98,21 +63,12 @@ export class CartRepository {
         carts[i].items = updatedItems;
       }
     }
-
-    const cartData = {
-      cart: {
-        id: cart.id,
-        items: updatedItems
-      },
-      total: CartRepository.getCartTotal(updatedItems)
-    };
-
-    return cartData;
+    cart.items = updatedItems;
+    return cart;
   }
 
-  static deleteCart(userId: string): Boolean {
+  static deleteCart(userId: string, cart: CartEntity): Boolean {
     let deleted = false;
-    const cart = CartRepository.getCart(userId);
     if (cart && !cart.isDeleted) {
       cart.items = [];
       cart.isDeleted = true;
@@ -124,38 +80,5 @@ export class CartRepository {
       }
     }
     return deleted;
-  }
-
-  static getCartItems (items: CartItemEntity[]): CartItemEntity[] {
-    return items.map(item => ({
-      product: {...item.product},
-      count: item.count
-    }));
-  }
-
-  static getOrder(userId: string): OrderEntity | undefined {
-    const cart = CartRepository.getCart(userId);
-    if (cart && !cart.isDeleted) {
-      const newOrder: OrderEntity = {
-        id: uuidv4(),
-        userId: cart.userId,
-        cartId: cart.id,
-        items: CartRepository.getCartItems(cart.items),
-        payment: {
-          type: "paypal",
-          address: "London",
-          creditCard: "1234-1234-1234-1234"
-        },
-        delivery: {
-          type: "post",
-          address: "London"
-        },
-        comments: "",
-        status: ORDER_STATUS.CREATED,
-        total: CartRepository.getCartTotal(cart.items)
-      };
-      return newOrder;
-    }
-    return;
   }
 }
